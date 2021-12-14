@@ -1,0 +1,17 @@
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Modbus.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Modbus.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Collector.Communication.Check.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Collector.Communication.Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Collector.Communication.Check.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\bin\Debug\Collector.Communication.Common.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\obj\Debug\Modbus.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Communication\obj\Debug\Modbus.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Check.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Check.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Common.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\obj\Debug\Collector.Communication.Modbus.csprojResolveAssemblyReference.cache
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Modbus.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\bin\Debug\Collector.Communication.Modbus.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\obj\Debug\Collector.Communication.Modbus.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Modbus\obj\Debug\Collector.Communication.Modbus.pdb

@@ -1,0 +1,5 @@
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\bin\Debug\Collector.Communication.Check.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\bin\Debug\Collector.Communication.Check.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.csprojResolveAssemblyReference.cache
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.pdb

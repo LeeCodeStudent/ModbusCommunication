@@ -1,0 +1,10 @@
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\BitConverter\bin\Debug\Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\BitConverter\bin\Debug\Common.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\BitConverter\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\BitConverter\obj\Debug\Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\BitConverter\obj\Debug\Common.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Common\bin\Debug\Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Common\bin\Debug\Common.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Common\obj\Debug\Common.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Common\obj\Debug\Common.pdb
