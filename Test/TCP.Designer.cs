@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.myInstrument6 = new myControls.MyInstrument();
+            this.myInstrument5 = new myControls.MyInstrument();
+            this.myInstrument4 = new myControls.MyInstrument();
             this.myInstrument1 = new myControls.MyInstrument();
             this.myInstrument2 = new myControls.MyInstrument();
             this.myInstrument3 = new myControls.MyInstrument();
-            this.myInstrument4 = new myControls.MyInstrument();
-            this.myInstrument5 = new myControls.MyInstrument();
-            this.myInstrument6 = new myControls.MyInstrument();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.myLED1 = new myControls.MyLED();
             this.myLED2 = new myControls.MyLED();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.myLED3 = new myControls.MyLED();
             this.myLED4 = new myControls.MyLED();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.myLED5 = new myControls.MyLED();
             this.myLED6 = new myControls.MyLED();
             this.tableLayoutPanel1.SuspendLayout();
@@ -74,6 +74,99 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1048, 857);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // myInstrument6
+            // 
+            this.myInstrument6.BigScaleColor = System.Drawing.Color.Black;
+            this.myInstrument6.BigScaleTextCount = 13;
+            this.myInstrument6.CircleAngle = 300F;
+            this.myInstrument6.CircleColor = System.Drawing.Color.Green;
+            this.myInstrument6.CircleThickness = 5;
+            this.myInstrument6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myInstrument6.LableFont = new System.Drawing.Font("宋体", 12F);
+            this.myInstrument6.Location = new System.Drawing.Point(701, 516);
+            this.myInstrument6.MaxValue = 120;
+            this.myInstrument6.MinValue = 0;
+            this.myInstrument6.Name = "myInstrument6";
+            this.myInstrument6.PointerCircleColor = System.Drawing.Color.Red;
+            this.myInstrument6.PointerColor = System.Drawing.Color.Red;
+            this.myInstrument6.PointerRadius = 15;
+            this.myInstrument6.PointerWidth = 7;
+            this.myInstrument6.ScaleTextHorizontalOffset = 20;
+            this.myInstrument6.ScaleTextVerticalOffset = 20;
+            this.myInstrument6.ScaleThickness = 3F;
+            this.myInstrument6.Size = new System.Drawing.Size(344, 338);
+            this.myInstrument6.SmallScaleColor = System.Drawing.Color.Black;
+            this.myInstrument6.SmallScaleCount = 121;
+            this.myInstrument6.TabIndex = 5;
+            this.myInstrument6.TextGap = 70;
+            this.myInstrument6.TitleFont = new System.Drawing.Font("宋体", 14F);
+            this.myInstrument6.TitleHorizontalOffset = 45;
+            this.myInstrument6.TitleStr = "请输入";
+            this.myInstrument6.TitleVerticalOffset = 30;
+            this.myInstrument6.Value = 0F;
+            // 
+            // myInstrument5
+            // 
+            this.myInstrument5.BigScaleColor = System.Drawing.Color.Black;
+            this.myInstrument5.BigScaleTextCount = 13;
+            this.myInstrument5.CircleAngle = 300F;
+            this.myInstrument5.CircleColor = System.Drawing.Color.Green;
+            this.myInstrument5.CircleThickness = 5;
+            this.myInstrument5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myInstrument5.LableFont = new System.Drawing.Font("宋体", 12F);
+            this.myInstrument5.Location = new System.Drawing.Point(352, 516);
+            this.myInstrument5.MaxValue = 120;
+            this.myInstrument5.MinValue = 0;
+            this.myInstrument5.Name = "myInstrument5";
+            this.myInstrument5.PointerCircleColor = System.Drawing.Color.Red;
+            this.myInstrument5.PointerColor = System.Drawing.Color.Red;
+            this.myInstrument5.PointerRadius = 15;
+            this.myInstrument5.PointerWidth = 7;
+            this.myInstrument5.ScaleTextHorizontalOffset = 20;
+            this.myInstrument5.ScaleTextVerticalOffset = 20;
+            this.myInstrument5.ScaleThickness = 3F;
+            this.myInstrument5.Size = new System.Drawing.Size(343, 338);
+            this.myInstrument5.SmallScaleColor = System.Drawing.Color.Black;
+            this.myInstrument5.SmallScaleCount = 121;
+            this.myInstrument5.TabIndex = 4;
+            this.myInstrument5.TextGap = 70;
+            this.myInstrument5.TitleFont = new System.Drawing.Font("宋体", 14F);
+            this.myInstrument5.TitleHorizontalOffset = 45;
+            this.myInstrument5.TitleStr = "请输入";
+            this.myInstrument5.TitleVerticalOffset = 30;
+            this.myInstrument5.Value = 0F;
+            // 
+            // myInstrument4
+            // 
+            this.myInstrument4.BigScaleColor = System.Drawing.Color.Black;
+            this.myInstrument4.BigScaleTextCount = 13;
+            this.myInstrument4.CircleAngle = 300F;
+            this.myInstrument4.CircleColor = System.Drawing.Color.Green;
+            this.myInstrument4.CircleThickness = 5;
+            this.myInstrument4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myInstrument4.LableFont = new System.Drawing.Font("宋体", 12F);
+            this.myInstrument4.Location = new System.Drawing.Point(3, 516);
+            this.myInstrument4.MaxValue = 120;
+            this.myInstrument4.MinValue = 0;
+            this.myInstrument4.Name = "myInstrument4";
+            this.myInstrument4.PointerCircleColor = System.Drawing.Color.Red;
+            this.myInstrument4.PointerColor = System.Drawing.Color.Red;
+            this.myInstrument4.PointerRadius = 15;
+            this.myInstrument4.PointerWidth = 7;
+            this.myInstrument4.ScaleTextHorizontalOffset = 20;
+            this.myInstrument4.ScaleTextVerticalOffset = 20;
+            this.myInstrument4.ScaleThickness = 3F;
+            this.myInstrument4.Size = new System.Drawing.Size(343, 338);
+            this.myInstrument4.SmallScaleColor = System.Drawing.Color.Black;
+            this.myInstrument4.SmallScaleCount = 121;
+            this.myInstrument4.TabIndex = 3;
+            this.myInstrument4.TextGap = 70;
+            this.myInstrument4.TitleFont = new System.Drawing.Font("宋体", 14F);
+            this.myInstrument4.TitleHorizontalOffset = 45;
+            this.myInstrument4.TitleStr = "请输入";
+            this.myInstrument4.TitleVerticalOffset = 30;
+            this.myInstrument4.Value = 0F;
             // 
             // myInstrument1
             // 
@@ -168,99 +261,6 @@
             this.myInstrument3.TitleVerticalOffset = 30;
             this.myInstrument3.Value = 0F;
             // 
-            // myInstrument4
-            // 
-            this.myInstrument4.BigScaleColor = System.Drawing.Color.Black;
-            this.myInstrument4.BigScaleTextCount = 13;
-            this.myInstrument4.CircleAngle = 300F;
-            this.myInstrument4.CircleColor = System.Drawing.Color.Green;
-            this.myInstrument4.CircleThickness = 5;
-            this.myInstrument4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myInstrument4.LableFont = new System.Drawing.Font("宋体", 12F);
-            this.myInstrument4.Location = new System.Drawing.Point(3, 516);
-            this.myInstrument4.MaxValue = 120;
-            this.myInstrument4.MinValue = 0;
-            this.myInstrument4.Name = "myInstrument4";
-            this.myInstrument4.PointerCircleColor = System.Drawing.Color.Red;
-            this.myInstrument4.PointerColor = System.Drawing.Color.Red;
-            this.myInstrument4.PointerRadius = 15;
-            this.myInstrument4.PointerWidth = 7;
-            this.myInstrument4.ScaleTextHorizontalOffset = 20;
-            this.myInstrument4.ScaleTextVerticalOffset = 20;
-            this.myInstrument4.ScaleThickness = 3F;
-            this.myInstrument4.Size = new System.Drawing.Size(343, 338);
-            this.myInstrument4.SmallScaleColor = System.Drawing.Color.Black;
-            this.myInstrument4.SmallScaleCount = 121;
-            this.myInstrument4.TabIndex = 3;
-            this.myInstrument4.TextGap = 70;
-            this.myInstrument4.TitleFont = new System.Drawing.Font("宋体", 14F);
-            this.myInstrument4.TitleHorizontalOffset = 45;
-            this.myInstrument4.TitleStr = "请输入";
-            this.myInstrument4.TitleVerticalOffset = 30;
-            this.myInstrument4.Value = 0F;
-            // 
-            // myInstrument5
-            // 
-            this.myInstrument5.BigScaleColor = System.Drawing.Color.Black;
-            this.myInstrument5.BigScaleTextCount = 13;
-            this.myInstrument5.CircleAngle = 300F;
-            this.myInstrument5.CircleColor = System.Drawing.Color.Green;
-            this.myInstrument5.CircleThickness = 5;
-            this.myInstrument5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myInstrument5.LableFont = new System.Drawing.Font("宋体", 12F);
-            this.myInstrument5.Location = new System.Drawing.Point(352, 516);
-            this.myInstrument5.MaxValue = 120;
-            this.myInstrument5.MinValue = 0;
-            this.myInstrument5.Name = "myInstrument5";
-            this.myInstrument5.PointerCircleColor = System.Drawing.Color.Red;
-            this.myInstrument5.PointerColor = System.Drawing.Color.Red;
-            this.myInstrument5.PointerRadius = 15;
-            this.myInstrument5.PointerWidth = 7;
-            this.myInstrument5.ScaleTextHorizontalOffset = 20;
-            this.myInstrument5.ScaleTextVerticalOffset = 20;
-            this.myInstrument5.ScaleThickness = 3F;
-            this.myInstrument5.Size = new System.Drawing.Size(343, 338);
-            this.myInstrument5.SmallScaleColor = System.Drawing.Color.Black;
-            this.myInstrument5.SmallScaleCount = 121;
-            this.myInstrument5.TabIndex = 4;
-            this.myInstrument5.TextGap = 70;
-            this.myInstrument5.TitleFont = new System.Drawing.Font("宋体", 14F);
-            this.myInstrument5.TitleHorizontalOffset = 45;
-            this.myInstrument5.TitleStr = "请输入";
-            this.myInstrument5.TitleVerticalOffset = 30;
-            this.myInstrument5.Value = 0F;
-            // 
-            // myInstrument6
-            // 
-            this.myInstrument6.BigScaleColor = System.Drawing.Color.Black;
-            this.myInstrument6.BigScaleTextCount = 13;
-            this.myInstrument6.CircleAngle = 300F;
-            this.myInstrument6.CircleColor = System.Drawing.Color.Green;
-            this.myInstrument6.CircleThickness = 5;
-            this.myInstrument6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myInstrument6.LableFont = new System.Drawing.Font("宋体", 12F);
-            this.myInstrument6.Location = new System.Drawing.Point(701, 516);
-            this.myInstrument6.MaxValue = 120;
-            this.myInstrument6.MinValue = 0;
-            this.myInstrument6.Name = "myInstrument6";
-            this.myInstrument6.PointerCircleColor = System.Drawing.Color.Red;
-            this.myInstrument6.PointerColor = System.Drawing.Color.Red;
-            this.myInstrument6.PointerRadius = 15;
-            this.myInstrument6.PointerWidth = 7;
-            this.myInstrument6.ScaleTextHorizontalOffset = 20;
-            this.myInstrument6.ScaleTextVerticalOffset = 20;
-            this.myInstrument6.ScaleThickness = 3F;
-            this.myInstrument6.Size = new System.Drawing.Size(344, 338);
-            this.myInstrument6.SmallScaleColor = System.Drawing.Color.Black;
-            this.myInstrument6.SmallScaleCount = 121;
-            this.myInstrument6.TabIndex = 5;
-            this.myInstrument6.TextGap = 70;
-            this.myInstrument6.TitleFont = new System.Drawing.Font("宋体", 14F);
-            this.myInstrument6.TitleHorizontalOffset = 45;
-            this.myInstrument6.TitleStr = "请输入";
-            this.myInstrument6.TitleVerticalOffset = 30;
-            this.myInstrument6.Value = 0F;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
@@ -276,38 +276,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(343, 165);
             this.tableLayoutPanel2.TabIndex = 6;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.myLED3, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.myLED4, 1, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(352, 3);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(343, 165);
-            this.tableLayoutPanel3.TabIndex = 6;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.myLED5, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.myLED6, 1, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(701, 3);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(344, 165);
-            this.tableLayoutPanel4.TabIndex = 6;
             // 
             // myLED1
             // 
@@ -347,6 +315,22 @@
             this.myLED2.TrueColor = System.Drawing.Color.Lime;
             this.myLED2.Value = false;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.myLED3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.myLED4, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(352, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(343, 165);
+            this.tableLayoutPanel3.TabIndex = 6;
+            // 
             // myLED3
             // 
             this.myLED3.BorderColor = System.Drawing.Color.Green;
@@ -384,6 +368,22 @@
             this.myLED4.TabIndex = 0;
             this.myLED4.TrueColor = System.Drawing.Color.Lime;
             this.myLED4.Value = false;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.myLED5, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.myLED6, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(701, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(344, 165);
+            this.tableLayoutPanel4.TabIndex = 6;
             // 
             // myLED5
             // 
@@ -431,6 +431,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TCP";
             this.Text = "TCP";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCP_FormClosing);
             this.Load += new System.EventHandler(this.TCP_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

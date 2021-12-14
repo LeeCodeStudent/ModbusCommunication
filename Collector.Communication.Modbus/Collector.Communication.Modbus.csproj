@@ -11,6 +11,7 @@
     <AssemblyName>Collector.Communication.Modbus</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,13 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModbusBase.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="RTU\ModbusRTU.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTU\SerialPortBase.cs" />
+    <Compile Include="RTU\SerialPortConfig.cs" />
     <Compile Include="TCP\ModbusTCP.cs" />
     <Compile Include="TCP\SocketTCPBase.cs" />
+    <Compile Include="TCP\SocketTCPConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Collector.Common.File\Collector.Common.File.csproj">
+      <Project>{878808b4-fda2-436c-ad6a-1df20165db44}</Project>
+      <Name>Collector.Common.File</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Collector.Communication.Check\Collector.Communication.Check.csproj">
       <Project>{55a06424-2ee9-45b0-9b31-4d28059f4499}</Project>
       <Name>Collector.Communication.Check</Name>

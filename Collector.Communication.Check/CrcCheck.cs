@@ -73,7 +73,7 @@ namespace Collector.Communication.Check
         };
 
         /// <summary>
-        /// CRC16校验，小端
+        /// CRC16校验，小端 高位在左 低位在右
         /// </summary>
         /// <param name="data">校验的字节数组</param>
         /// <param name="start">校验的数组起始位置</param>
@@ -81,22 +81,22 @@ namespace Collector.Communication.Check
         /// <returns>该字节数组的奇偶校验字节</returns>
         public static byte[] Crc16LittleEndian(byte[] data, UInt16 start, UInt32 length)
         {
-            byte CRCHigh = 0xFF;
             byte CRCLow = 0xFF;
+            byte CRCHigh = 0xFF;
             byte index;
             int arrayLength = data.Length;
             for (int i = start; i < (length); i++)
             {
-                index = (Byte)(CRCHigh ^ data[i]);
-                CRCHigh = (Byte)(CRCLow ^ ArrayCRCHigh[index]);
-                CRCLow = checkCRCLow[index];
+                index = (Byte)(CRCLow ^ data[i]);
+                CRCLow = (Byte)(CRCHigh ^ ArrayCRCHigh[index]);
+                CRCHigh = checkCRCLow[index];
             }
 
-            return new byte[] { CRCLow, CRCHigh };
+            return new byte[] { CRCHigh, CRCLow };
         }
 
         /// <summary>
-        /// CRC16校验，大端
+        /// CRC16校验，大端 低位在左 高位在右
         /// </summary>
         /// <param name="data">被校验字节数组</param>
         /// <returns>CRC16校验码</returns>
@@ -113,7 +113,7 @@ namespace Collector.Communication.Check
 
 
         /// <summary>
-        /// CRC16校验，大端
+        /// CRC16校验，大端 低位在左 高位在右
         /// </summary>
         /// <param name="data">源数据</param>
         /// <param name="start">开始位置</param>
@@ -146,7 +146,7 @@ namespace Collector.Communication.Check
         }
 
         /// <summary>
-        /// CRC16校验，小端
+        /// CRC16校验，小端 高位在左 低位在右
         /// </summary>
         /// <param name="data">被校验字节数组</param>
         /// <returns>CRC16校验码</returns>

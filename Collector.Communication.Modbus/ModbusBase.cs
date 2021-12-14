@@ -4,11 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Collector.Communication.Common;
+using Collector.Common.File;
 
 namespace Collector.Communication.Modbus
 {
     public class ModbusBase
-    {
+    {        
+        //创建Common字段
+        protected BitOperator _bitOperator;
+
+        protected TxtFile _txtFile;
+
+        //接收超时时间
+        protected int RecTimeOut { get; set; } = 2000;
+
+        public ModbusBase(string LogPath, string LogName)
+        {
+            _txtFile = new TxtFile();
+
+            _txtFile.Create(LogPath, LogName);
+
+            _bitOperator = new BitOperator();
+        }
         // 功能码 iFuncCode
         protected const byte fctReadCoils = 0x01;
 
@@ -28,11 +45,6 @@ namespace Collector.Communication.Modbus
 
         protected const byte fctReadWriteMultipleRegister = 0x17;
 
-        //创建Common字段
-        protected BitOperator _bitOperator;
-
-        //接收超时时间
-        protected int RecTimeOut { get; set; } = 2000;
 
         /// <summary>
         /// 根据请求的数据个数计算出数据字节的长度

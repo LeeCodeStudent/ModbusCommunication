@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -75,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="TCP.resx">
       <DependentUpon>TCP.cs</DependentUpon>
@@ -94,6 +96,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Collector.Common.File\Collector.Common.File.csproj">
+      <Project>{878808b4-fda2-436c-ad6a-1df20165db44}</Project>
+      <Name>Collector.Common.File</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Collector.Communication.Common\Collector.Communication.Common.csproj">
       <Project>{b19c18f0-8cb4-452b-a80e-5a424b1298af}</Project>
       <Name>Collector.Communication.Common</Name>

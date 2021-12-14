@@ -1,18 +1,31 @@
-﻿using Collector.Communication.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Collector.Communication.Modbus.TCP
 {
     public class ModbusTCP: SocketTCPBase
     {
-        public ModbusTCP()
+        public ModbusTCP(string ip, int port, string LogPath, string LogName, int? ConnTimeOut = null) : base(ip, port, LogPath, LogName, ConnTimeOut = null) { }
+
+        public ModbusTCP(IPEndPoint ipAndPoint, string LogPath, string LogName, int? ConnTimeOut = null) : base(ipAndPoint, LogPath, LogName, ConnTimeOut = null) { }
+
+        private void Result_SendRequest(Result e)
         {
-            _bitOperator = new BitOperator();
+            _txtFile.WriteLine(DateTime.Now.ToString() + " Send：" + Thread.CurrentThread.ManagedThreadId + "\n" + e.Requst);
+            Console.WriteLine("Send：" + e.Requst);
         }
+        private void Result_ReceiveResponse(Result e)
+        {
+            _txtFile.WriteLine(DateTime.Now.ToString() + " Receive：" + Thread.CurrentThread.ManagedThreadId + "\n" + e.Response);
+            Console.WriteLine("Receive：" + e.Response);
+        }
+
         #region Read
 
         /// <summary>
@@ -23,53 +36,51 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="iLength"></param>
         /// <returns></returns>
-        private async Task<byte[]> Read(byte iDevAdd, byte iFuncCode, ushort iStartAdd, ushort iLength)
+        private async Task<Result<byte[]>> Read(byte iDevAdd, byte iFuncCode, ushort iStartAdd, ushort iLength)
         {
-            byte[] res = new byte[1024];
+            var result = new Result<byte[]>();
             try
             {
+                //事件订阅
+                result.SendRequest += Result_SendRequest;
+                result.ReceiveResponse += Result_ReceiveResponse;
+                //获取命令（组装报文）
                 var checkHead = GetCheckHead(iFuncCode);
-                //1 获取命令（组装报文）
                 byte[] SendCommand = GetReadCommand(iDevAdd, iFuncCode, iStartAdd, iLength, checkHead);
-
-                // 转换成16进制 只做查看 不做传输
-                var sendHex = SendCommand.Select(a => a.ToString("X2"));
-                Console.WriteLine("Send：" + string.Join(" ", sendHex.ToArray()));
-
-                //读线圈时一个字节表示8个bool，读寄存器时两个字节表示一个short
-                //需要用线圈或寄存器的个数计算数据字节数
-                int byteLength = GetByteLength(iFuncCode, iLength);
-                byte[] response = await SendAndReceive(SendCommand.ToArray());
-
-                // 转换成16进制 只做查看 不做传输
-                var revHex = response.Select(a => a.ToString("X2"));
-                Console.WriteLine("Receive：" + string.Join(" ", revHex.ToArray()));
-                //验证报文正确性
-                if (response?.Length == 9 + byteLength)
+                result.Requst = string.Join(" ", SendCommand.Select(t => t.ToString("X2")));
+                //发送并且接收报文
+                byte[] Response = await SendAndReceive(SendCommand.ToArray());
+                result.Response = string.Join(" ", Response.Select(t => t.ToString("X2")));
+                //检验报文
+                ushort byteLength = GetByteLength(iFuncCode, iLength);
+                if (!CheckReadResponse(byteLength, SendCommand,Response))
                 {
-                    //验证前4个字节是否与发送报文的前4个字节一致
-                    if (response[0] == SendCommand[0] && response[1] == SendCommand[1] && response[2] == SendCommand[2] && response[3] == SendCommand[3])
-                    {
-                        //验证报文长度是否正确
-                        if (_bitOperator.GetUshortFrom2ByteArray(new byte[] { response[4], response[5] }, 0) == 3 + byteLength && response[8] == byteLength)
-                        {
-                            if (response[6] == iDevAdd && response[7] == iFuncCode)
-                            {
-                                Console.WriteLine("读取成功");
-                                return _bitOperator.GetByteArray(response, 9, response.Length - 9);
-                            }
-                        }
-                    }
+                    result.IsSucceed = false;
+                    result.Err = "响应结果校验失败";
+                    result.ErrList.Add("响应结果校验失败");
                 }
-
-
-                return null;
+                else
+                {
+                    result.Value = _bitOperator.GetByteArray(Response, 9, Response.Length - 9);
+                }
             }
-            catch (Exception ex)
+
+            catch (SocketException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                result.IsSucceed = false;
+                if (ex.SocketErrorCode == SocketError.TimedOut)
+                {
+                    result.Err = "连接超时";
+                    result.ErrList.Add("连接超时");
+                    SafeClose(_socket);
+                }
+                else
+                {
+                    result.Err = ex.Message;
+                    result.ErrList.Add(ex.Message);
+                }
             }
+            return result;
         }
 
         /// <summary>
@@ -79,13 +90,22 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="iLength"></param>
         /// <returns></returns>
-        public async Task<bool[]> ReadCoils(byte iDevAdd, ushort iStartAdd, ushort iLength)
+        public async Task<Result<bool[]>> ReadCoils(byte iDevAdd, ushort iStartAdd, ushort iLength)
         {
             try
             {
-                byte[] byteRes = await Read(iDevAdd, fctReadCoils, iStartAdd, iLength);
-                bool[] boolRes = _bitOperator.GetBitArrayFromByteArray(byteRes);
-                return boolRes;
+                var readResut = await Read(iDevAdd, fctReadCoils, iStartAdd, iLength);
+                var result = new Result<bool[]>()
+                {
+                    IsSucceed = readResut.IsSucceed,
+                    Err = readResut.Err,
+                    ErrList = readResut.ErrList,
+                    Requst = readResut.Requst,
+                    Response = readResut.Response,
+                };
+                if (result.IsSucceed)
+                    result.Value = _bitOperator.GetBitArrayFromByteArray(readResut.Value);
+                return result;
             }
             catch (Exception)
             {
@@ -100,13 +120,22 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="iLength"></param>
         /// <returns></returns>
-        public async Task<bool[]> ReadDiscreteInputs(byte iDevAdd, ushort iStartAdd, ushort iLength)
+        public async Task<Result<bool[]>> ReadDiscreteInputs(byte iDevAdd, ushort iStartAdd, ushort iLength)
         {
             try
             {
-                byte[] byteRes = await Read(iDevAdd, fctReadDiscreteInputs, iStartAdd, iLength);
-                bool[] boolRes = _bitOperator.GetBitArrayFromByteArray(byteRes);
-                return boolRes;
+                var readResut = await Read(iDevAdd, fctReadCoils, iStartAdd, iLength);
+                var result = new Result<bool[]>()
+                {
+                    IsSucceed = readResut.IsSucceed,
+                    Err = readResut.Err,
+                    ErrList = readResut.ErrList,
+                    Requst = readResut.Requst,
+                    Response = readResut.Response,
+                };
+                if (result.IsSucceed)
+                    result.Value = _bitOperator.GetBitArrayFromByteArray(readResut.Value);
+                return result;
             }
             catch (Exception)
             {
@@ -121,13 +150,22 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="iLength"></param>
         /// <returns></returns>
-        public async Task<ushort[]> ReadHoldingRegisters(byte iDevAdd, byte iStartAdd,  ushort iLength)
+        public async Task<Result<ushort[]>> ReadHoldingRegisters(byte iDevAdd, byte iStartAdd,  ushort iLength)
         {
             try
             {
-                byte[] byteRes = await Read(iDevAdd, fctReadHoldingRegisters,iStartAdd, iLength);
-                ushort[] Int16Res = _bitOperator.GetUshortArrayFromByteArray(byteRes);
-                return Int16Res;
+                var readResut = await Read(iDevAdd, fctReadHoldingRegisters, iStartAdd, iLength);
+                var result = new Result<ushort[]>()
+                {
+                    IsSucceed = readResut.IsSucceed,
+                    Err = readResut.Err,
+                    ErrList = readResut.ErrList,
+                    Requst = readResut.Requst,
+                    Response = readResut.Response,
+                };
+                if (result.IsSucceed)
+                    result.Value = _bitOperator.GetUshortArrayFromByteArray(readResut.Value);
+                return result;
             }
             catch (Exception)
             {
@@ -142,13 +180,22 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="iLength"></param>
         /// <returns></returns>
-        public async Task<ushort[]> ReadInputRegisters(byte iDevAdd, byte iStartAdd, ushort iLength)
+        public async Task<Result<ushort[]>> ReadInputRegisters(byte iDevAdd, byte iStartAdd, ushort iLength)
         {
             try
             {
-                byte[] byteRes = await Read(iDevAdd, fctReadInputRegisters, iStartAdd, iLength);
-                ushort[] Int16Res = _bitOperator.GetUshortArrayFromByteArray(byteRes);
-                return Int16Res;
+                var readResut = await Read(iDevAdd, fctReadHoldingRegisters, iStartAdd, iLength);
+                var result = new Result<ushort[]>()
+                {
+                    IsSucceed = readResut.IsSucceed,
+                    Err = readResut.Err,
+                    ErrList = readResut.ErrList,
+                    Requst = readResut.Requst,
+                    Response = readResut.Response,
+                };
+                if (result.IsSucceed)
+                    result.Value = _bitOperator.GetUshortArrayFromByteArray(readResut.Value);
+                return result;
             }
             catch (Exception)
             {
@@ -167,36 +214,47 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd">起始地址</param>
         /// <param name="SendCommand">拼接报文</param>
         /// <returns></returns>
-        private async Task<bool> WriteSingle(byte iDevAdd, byte iFuncCode, ushort iStartAdd, byte[] SendCommand)
+        private async Task<Result<bool>> WriteSingle(byte iDevAdd, byte iFuncCode, ushort iStartAdd, byte[] SendCommand)
         {
-            // 转换成16进制 只做查看 不做传输
-            var sendHex = SendCommand.Select(a => a.ToString("X2"));
-            Console.WriteLine("Send：" + string.Join(" ", sendHex.ToArray()));
-
-            //读线圈时一个字节表示8个线圈数据
-            //需要用数据个数计算字节数
-            byte[] response = await SendAndReceive(SendCommand.ToArray());
-            if (response != null)
+            var result = new Result<bool>();
+            try
             {
-                // 转换成16进制 只做查看 不做传输
-                var revHex = response.Select(a => a.ToString("X2"));
-                Console.WriteLine("Receive：" + string.Join(" ", revHex.ToArray()));
-                //验证报文正确性 返回报文固定为 12 个字节
-                int res = 0;
-                for (int i = 0; i < 12; i++)
+                //事件订阅
+                result.SendRequest += Result_SendRequest;
+                result.ReceiveResponse += Result_ReceiveResponse;
+                //获取命令（组装报文）
+                result.Requst = string.Join(" ", SendCommand.Select(t => t.ToString("X2")));
+                //发送并且接收报文
+                byte[] Response = await SendAndReceive(SendCommand.ToArray());
+                result.Response = string.Join(" ", Response.Select(t => t.ToString("X2")));
+                if (!CheckWriteSingleResponse(SendCommand, Response))
                 {
-                    if (SendCommand[i] == response[i])
-                    {
-                        res++;
-                    }
+                    result.IsSucceed = false;
+                    result.Err = "响应结果校验失败";
+                    result.ErrList.Add("响应结果校验失败");
                 }
-                if (res == 12)
+                else
                 {
-                    Console.WriteLine("写入成功");
-                    return true;
+                    result.Value = true;
                 }
             }
-            return false;
+
+            catch (SocketException ex)
+            {
+                result.IsSucceed = false;
+                if (ex.SocketErrorCode == SocketError.TimedOut)
+                {
+                    result.Err = "连接超时";
+                    result.ErrList.Add("连接超时");
+                    SafeClose(_socket);
+                }
+                else
+                {
+                    result.Err = ex.Message;
+                    result.ErrList.Add(ex.Message);
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -211,7 +269,8 @@ namespace Collector.Communication.Modbus.TCP
             try
             {
                 byte[] SendCommand = GetWriteSingleCommand(iDevAdd, fctWriteSingleCoil, iStartAdd,value);
-                return await WriteSingle(iDevAdd, fctWriteSingleCoil, iStartAdd, SendCommand);
+                var result = await WriteSingle(iDevAdd, fctWriteSingleCoil, iStartAdd, SendCommand);
+                return result.Value;
             }
             catch (Exception)
             {
@@ -226,12 +285,13 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<bool> WriteSingleRegister(byte iDevAdd, ushort iStartAdd, short value)
+        public async Task<bool> WriteSingleRegister(byte iDevAdd, ushort iStartAdd, ushort value)
         {
             try
             {
                 byte[] SendCommand = GetWriteSingleCommand(iDevAdd, fctWriteSingleRegister, iStartAdd, value);
-                return await WriteSingle(iDevAdd, fctWriteSingleCoil, iStartAdd, SendCommand);
+                var result = await WriteSingle(iDevAdd, fctWriteSingleCoil, iStartAdd, SendCommand);
+                return result.Value;
             }
             catch (Exception)
             {
@@ -251,41 +311,47 @@ namespace Collector.Communication.Modbus.TCP
         /// <param name="iStartAdd">起始地址</param>
         /// <param name="SendCommand">拼接报文</param>
         /// <returns></returns>
-        private async Task<bool> WriteMultiple(byte iDevAdd, byte iFuncCode, ushort iStartAdd, byte[] SendCommand)
+        private async Task<Result<bool>> WriteMultiple(byte iDevAdd, byte iFuncCode, ushort iStartAdd, byte[] SendCommand)
         {
-            // 转换成16进制 只做查看 不做传输
-            var sendHex = SendCommand.Select(a => a.ToString("X2"));
-            Console.WriteLine("Send：" + string.Join(" ", sendHex.ToArray()));
-
-            //读线圈时一个字节表示8个线圈数据
-            //需要用数据个数计算字节数
-            byte[] response = await SendAndReceive(SendCommand.ToArray());
-
-            if (response != null)
+            var result = new Result<bool>();
+            try
             {
-                // 转换成16进制 只做查看 不做传输
-                var revHex = response.Select(a => a.ToString("X2"));
-                Console.WriteLine("Receive：" + string.Join(" ", revHex.ToArray()));
-                //验证报文正确性 返回报文固定为 12 个字节 ,除了第 6 个字节为 06，其他与请求报文一致
-                int res = 0;
-                for (int i = 0; i < 12; i++)
+                //事件订阅
+                result.SendRequest += Result_SendRequest;
+                result.ReceiveResponse += Result_ReceiveResponse;
+                //获取命令（组装报文）
+                result.Requst = string.Join(" ", SendCommand.Select(t => t.ToString("X2")));
+                //发送并且接收报文
+                byte[] Response = await SendAndReceive(SendCommand.ToArray());
+                result.Response = string.Join(" ", Response.Select(t => t.ToString("X2")));
+                if (!CheckWriteMultipleResponse(SendCommand, Response))
                 {
-                    if (i == 5 && response[i] == 06)
-                    {
-                        res++;
-                    }
-                    else if (SendCommand[i] == response[i])
-                    {
-                        res++;
-                    }
+                    result.IsSucceed = false;
+                    result.Err = "响应结果校验失败";
+                    result.ErrList.Add("响应结果校验失败");
                 }
-                if (res == 12)
+                else
                 {
-                    Console.WriteLine("写入成功");
-                    return true;
+                    result.Value = true;
                 }
             }
-            return false;
+
+            catch (SocketException ex)
+            {
+                result.IsSucceed = false;
+                if (ex.SocketErrorCode == SocketError.TimedOut)
+                {
+                    result.Err = "连接超时";
+                    result.ErrList.Add("连接超时");
+                    SafeClose(_socket);
+                }
+                else
+                {
+                    result.Err = ex.Message;
+                    result.ErrList.Add(ex.Message);
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -301,7 +367,8 @@ namespace Collector.Communication.Modbus.TCP
             try
             {
                 byte[] SendCommand = GetWriteCoilsCommand(iDevAdd, iFuncCode, iStartAdd, iLength, values);
-                return await WriteMultiple(iDevAdd, iFuncCode, iStartAdd, SendCommand);
+                var result = await WriteMultiple(iDevAdd, iFuncCode, iStartAdd, SendCommand);
+                return result.Value;
             }
             catch (Exception)
             {
@@ -322,7 +389,8 @@ namespace Collector.Communication.Modbus.TCP
             try
             {
                 byte[] SendCommand = GetWriteRegistersCommand(iDevAdd, iFuncCode, iStartAdd, iLength, values);
-                return await WriteMultiple(iDevAdd, iFuncCode, iStartAdd, SendCommand);
+                var result = await WriteMultiple(iDevAdd, iFuncCode, iStartAdd, SendCommand);
+                return result.Value;
             }
             catch (Exception)
             {

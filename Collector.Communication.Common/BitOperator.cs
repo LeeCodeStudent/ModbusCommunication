@@ -232,6 +232,30 @@ namespace Collector.Communication.Common
             }
             return Res;
         }
+        /// <summary>
+        /// 将一个16位的整数转换为二进制 并将每一位输出
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public char[] GetBoolArrayFromUshort(ushort source)
+        {
+            int sum;
+            string result = "";
+            for (int i = source; i >= 1; i = i / 2)
+            {
+                if (i % 2 == 0)
+                {
+                    sum = 0;
+                }
+                else
+                {
+                    sum = 1;
+                }
+                result = sum + result;
+            }
+
+            return result.ToArray();
+        }
         #endregion
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Collector.Communication.Check;
+using Collector.Communication.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Collector.Communication.Modbus.RTU
@@ -13,11 +15,38 @@ namespace Collector.Communication.Modbus.RTU
     {
         #region Filed
 
-        //创建串口对象
-        private SerialPort _serialPort;
+        /// <summary>
+        /// 串行端口对象
+        /// </summary>
+        protected SerialPort _serialPort;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected SerialPortConfig _serialPortConfig;
 
 
         #endregion
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="iPortName">串口名称</param>
+        /// <param name="iBaudRate">波特率</param>
+        /// <param name="iDataBits">数据位</param>
+        /// <param name="iStopBits">停止位</param>
+        /// <param name="iParity">校验位</param>
+        public SerialPortBase(string iPortName, int iBaudRate, int iDataBits, StopBits iStopBits, Parity iParity, string LogPath, string LogName) : base( LogPath, LogName)
+        {
+            if (_serialPort == null) _serialPort = new SerialPort();
+            _serialPort.PortName = iPortName;
+            _serialPort.BaudRate = iBaudRate;
+            _serialPort.DataBits = iDataBits;
+            _serialPort.StopBits = iStopBits;
+            _serialPort.Encoding = Encoding.ASCII;
+            _serialPort.Parity = iParity;
+            _bitOperator = new BitOperator();
+            _serialPortConfig = new SerialPortConfig();
+        }
 
         #region Method
 
@@ -31,44 +60,67 @@ namespace Collector.Communication.Modbus.RTU
         /// <param name="iParity"></param>
         /// <param name="iDataBits"></param>
         /// <param name="iStopBits"></param>
-        public void Connect(string iPortName, int iBaudRate, Parity iParity, int iDataBits, StopBits iStopBits)
+        public Result Connect()
         {
-            _serialPort = new SerialPort(iPortName, iBaudRate, iParity, iDataBits, iStopBits);
-            if (_serialPort.IsOpen)
+            var ports = SerialPort.GetPortNames();
+            var result = new Result();
+            _serialPort?.Close();
+            try
             {
-                _serialPort.Close();
+                //连接
+                _serialPort.Open();
+                _serialPortConfig.ConnectSuccess += _serialPortConfig_ConnectSuccess; ;
+                _serialPortConfig.iPortName = _serialPort.PortName;
+                _serialPortConfig.iBaudRate = _serialPort.BaudRate;
+                _serialPortConfig.iDataBits = _serialPort.DataBits;
+                _serialPortConfig.iStopBits = _serialPort.StopBits;
+                _serialPortConfig.iParity = _serialPort.Parity;
+                _serialPortConfig.IsConnectSucceed = true;
+                return result;
             }
-            _serialPort.Open();
+            catch (Exception ex)
+            {
+                result.IsSucceed = false;
+                result.Err = ex.Message;
+                return result;
+            }
         }
 
-        public void DisConnect()
+        private void _serialPortConfig_ConnectSuccess(SerialPortConfig e)
         {
-            if (_serialPort.IsOpen)
+            _txtFile.WriteLine(DateTime.Now.ToString() + "串口连接成功：\n" + $"串口号：{e.iPortName}\n" + $"波特率：{e.iBaudRate}\n" + $"数据位：{e.iDataBits}\n" + $"停止位：{e.iStopBits}\n" + $"校验位：{e.iParity}\n"+ $"当前线程：{Thread.CurrentThread.ManagedThreadId}\n");
+            Console.WriteLine(DateTime.Now.ToString() + "串口连接成功：\n" + $"串口号：{e.iPortName}\n" + $"波特率：{e.iBaudRate}\n" + $"数据位：{e.iDataBits}\n" + $"停止位：{e.iStopBits}\n" + $"校验位：{e.iParity}\n" + $"当前线程：{Thread.CurrentThread.ManagedThreadId}\n");
+        }
+
+        public Result DisConnect()
+        {
+            var result = new Result();
+            try
             {
                 _serialPort.Close();
             }
+            catch (Exception ex)
+            {
+                result.IsSucceed = false;
+                result.Err = ex.Message;
+            }
+            return result;
         }
         #endregion
 
         #region 发送和接收
 
         /// <summary>
-        /// 验证CRC
+        /// 验证响应报文CRC正确性
         /// </summary>
-        /// <param name="response"></param>
+        /// <param name="Response"></param>
         /// <returns></returns>
-        protected bool CheckCRC(byte[] response)
+        protected bool CheckCRC(byte[] Response)
         {
-            byte[] CRC = CrcCheck.CalculateCRC16BigEndian(response, 0, (UInt32)response.Length - 2);
-
-            if (CRC[0] == response[response.Length - 2] && CRC[1] == response[response.Length - 1])
-            {
+            byte[] CRC = CrcCheck.CalculateCRC16BigEndian(Response, 0, (UInt32)Response.Length - 2);
+            if (CRC[0] == Response[Response.Length - 2] && CRC[1] == Response[Response.Length - 1])
                 return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         protected async Task<byte[]> SendAndReceive(byte[] send)
         {
@@ -88,21 +140,16 @@ namespace Collector.Communication.Modbus.RTU
                     if (_serialPort.BytesToRead > 0)
                     {
                         int count = _serialPort.Read(buffer, 0, buffer.Length);
-
                         ms.Write(buffer, 0, count);
                     }
                     else
                     {
                         //接收超时
                         if ((DateTime.Now - start).TotalMilliseconds > this.RecTimeOut)
-                        {
                             ms.Dispose();
-                        }
                         //如果内存中已经有值了
                         else if (ms.Length > 0)
-                        {
                             break;
-                        }
                     }
                 }
                 //接收到的报文数据
@@ -114,7 +161,70 @@ namespace Collector.Communication.Modbus.RTU
             }
 
         }
-
+        /// <summary>
+        /// 检验读数据响应报文正确性
+        /// </summary>
+        /// <param name="iLength"></param>
+        /// <param name="SendCommand"></param>
+        /// <param name="Response"></param>
+        /// <returns></returns>
+        /// 读线圈
+        /// Tx:120-01 01 00 00 00 0A BC 0D
+        /// Rx:121-01 01 02 55 00 86 AC
+        /// 读寄存器
+        /// Tx:000-01 03 00 00 00 0A C5 CD
+        /// Rx:001-01 03 14 00 38 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0E 02
+        protected bool CheckReadResponse(ushort byteLength, byte[] SendCommand, byte[] Response)
+        {            
+            //验证报文长度是否正确
+            if (Response?.Length == 5 + byteLength)
+                //检验从站地址、功能码、字节长度、CRC
+                if (Response[0] == SendCommand[0] && Response[1] == SendCommand[1] && Response[2] == byteLength && CheckCRC(Response))
+                    return true;
+            return false;
+        }
+        /// <summary>
+        /// 检验写入单个数据响应报文正确性
+        /// </summary>
+        /// <param name="SendCommand"></param>
+        /// <param name="Response"></param>
+        /// <returns></returns>
+        /// 写单个线圈
+        /// Tx:016-01 05 00 00 FF 00 8C 3A
+        /// Rx:017-01 05 00 00 FF 00 8C 3A
+        /// 写单个寄存器
+        /// Tx:114-01 06 00 00 00 2D 49 D7
+        /// Rx:115-01 06 00 00 00 2D 49 D7
+        protected bool CheckWriteSingleResponse(byte[] SendCommand, byte[] Response)
+        {
+            //请求报文与响应报文完全一致 固定为 8 个字节
+            //RTU只检查响应报文CRC 与 请求报文CRC是否一致即可
+            if (Response[Response.Length - 2] == SendCommand[SendCommand.Length - 2] && Response[Response.Length - 1] == SendCommand[SendCommand.Length - 1])
+                return true;
+            return false;
+        }
+        /// <summary>
+        /// 检验写入多个数据响应报文正确性
+        /// </summary>
+        /// <param name="SendCommand"></param>
+        /// <param name="Response"></param>
+        /// <returns></returns>
+        /// 写多个线圈
+        /// Tx:042-01 0F 00 00 00 0A 02 1F 00 ED 08
+        /// Rx:043-01 0F 00 00 00 0A D5 CC
+        /// 写多个寄存器
+        /// Tx:090-01 10 00 00 00 0A 14 00 0C 00 00 00 17 00 00 00 22 00 00 00 2D 00 00 00 38 00 00 E8 16
+        /// Rx:091-01 10 00 00 00 0A 40 0E
+        protected bool CheckWriteMultipleResponse(byte[] SendCommand, byte[] Response)
+        {               
+            //验证报文正确性 返回报文固定为8个字节
+            if (Response != null)
+                if (Response.Length == 8)
+                    if (Response[0] == SendCommand[0] && Response[1] == SendCommand[1] && Response[2] == SendCommand[2] && Response[3] == SendCommand[3] && Response[4] == SendCommand[4] && Response[5] == SendCommand[5])
+                        if(CheckCRC(Response))
+                        return true;
+            return false;
+        }
         /// <summary>
         /// 获取读取命令
         /// </summary>

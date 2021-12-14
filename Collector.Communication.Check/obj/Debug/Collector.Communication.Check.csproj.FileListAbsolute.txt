@@ -3,3 +3,8 @@ C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.csprojResolveAssemblyReference.cache
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.dll
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Check\obj\Debug\Collector.Communication.Check.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Check\bin\Debug\Collector.Communication.Check.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Check\bin\Debug\Collector.Communication.Check.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Check\obj\Debug\Collector.Communication.Check.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Check\obj\Debug\Collector.Communication.Check.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Check\obj\Debug\Collector.Communication.Check.csprojResolveAssemblyReference.cache

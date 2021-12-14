@@ -47,7 +47,6 @@
             this.myLED8 = new myControls.MyLED();
             this.myLED9 = new myControls.MyLED();
             this.myLED10 = new myControls.MyLED();
-            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -84,7 +83,6 @@
             this.tableLayoutPanel1.Controls.Add(this.myLED8, 8, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLED9, 9, 0);
             this.tableLayoutPanel1.Controls.Add(this.myLED10, 10, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 5, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -450,17 +448,6 @@
             this.myLED10.TrueColor = System.Drawing.Color.Lime;
             this.myLED10.Value = false;
             // 
-            // button1
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.button1, 3);
-            this.button1.Location = new System.Drawing.Point(493, 395);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(288, 116);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // RTU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -501,7 +488,6 @@
         private myControls.MyInstrument myInstrument1;
         private myControls.MyInstrument myInstrument3;
         private myControls.MyInstrument myInstrument4;
-        private System.Windows.Forms.Button button1;
     }
 }
 

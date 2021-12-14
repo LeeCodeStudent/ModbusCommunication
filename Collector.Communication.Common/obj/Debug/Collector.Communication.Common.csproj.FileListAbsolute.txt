@@ -7,3 +7,8 @@ C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Colle
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.dll
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.pdb
 C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.Communication\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.csprojResolveAssemblyReference.cache
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Common\bin\Debug\Collector.Communication.Common.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Common\bin\Debug\Collector.Communication.Common.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Communication.Common\obj\Debug\Collector.Communication.Common.csprojResolveAssemblyReference.cache

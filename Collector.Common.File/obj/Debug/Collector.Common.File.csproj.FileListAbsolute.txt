@@ -1,0 +1,10 @@
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\bin\Debug\Collector.Common.File.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\bin\Debug\Collector.Common.File.pdb
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.csprojResolveAssemblyReference.cache
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.dll
+C:\Users\凉迹\Desktop\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\bin\Debug\Collector.Common.File.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\bin\Debug\Collector.Common.File.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.dll
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.pdb
+F:\文件备份\2021.5.25\Winform\上位机训练营\Collector.CommunicationV2.0\Collector.Common.File\obj\Debug\Collector.Common.File.csprojResolveAssemblyReference.cache
